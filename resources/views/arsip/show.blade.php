@@ -11,10 +11,6 @@
     </p>
     <a href="{{ route('arsip.index') }}"><< Kembali</a>
     <a href="{{ route('arsip.edit', $surat->id) }}">Edit/Ganti File</a>
-    <form action="{{ route('arsip.update', $surat->id) }}" method="post" enctype="multipart/form-data">
-        @csrf
-        <input type="file" name="file">
-        <button type="submit">Unduh</button>
-    </form>
+    <a href="{{ route('arsip.download', $surat->id) }}">Unduh</a>
 </div>
 @endsection

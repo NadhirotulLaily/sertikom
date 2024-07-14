@@ -27,14 +27,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($kategoriSurat as $kategori)
+                @foreach($kategori as $kat)
                     <tr>
-                        <td>{{ $kategori->id_kategori }}</td>
-                        <td>{{ $kategori->nama_kategori }}</td>
-                        <td>{{ $kategori->keterangan }}</td>
+                        <td>{{ $kat->id_kategori }}</td>
+                        <td>{{ $kat->nama_kategori }}</td>
+                        <td>{{ $kat->keterangan }}</td>
                         <td>
                             <button class="btn-delete">Hapus</button>
-                            <a href="{{ route('kategori.edit', $kategori->id) }}" class="btn-edit">Edit</a>
+                            <a href="{{ route('kategori.edit', ['id_kategori' => $kat->id_kategori]) }}" class="btn btn-primary">Edit</a>
                         </td>
                     </tr>
                 @endforeach

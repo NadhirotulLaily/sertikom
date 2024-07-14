@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Arsip;
+use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArsipController extends Controller
 {
@@ -25,7 +27,8 @@ class ArsipController extends Controller
      */
     public function create()
     {
-        return view('arsip.create');
+        $kategori = Kategori::all();
+        return view('arsip.create', compact('kategori'));
     }
 
     /**
@@ -36,30 +39,34 @@ class ArsipController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang dikirimkan dari form
         $request->validate([
             'nomor_surat' => 'required|string|max:255',
-            'kategori' => 'required|string|max:255',
+            'kategori' => 'required|integer', // Make sure there is a 'kategori' field in the form
             'judul' => 'required|string|max:255',
-            'file_surat' => 'required|mimes:pdf|max:2048', // Hanya menerima file PDF dengan ukuran maksimum 2MB
+            'file_surat' => 'required|mimes:pdf|max:2048',
         ]);
-
-        // Proses penyimpanan data
-        $file = $request->file('file_surat');
-        $fileName = time() . '_' . $file->getClientOriginalName();
-        $filePath = $file->storeAs('arsip', $fileName, 'public');
-
-        // Buat entry baru dalam database menggunakan model Arsip
-        $arsip = new Arsip();
-        $arsip->nomor_surat = $request->nomor_surat;
-        $arsip->kategori = $request->kategori;
-        $arsip->judul = $request->judul;
-        $arsip->file_path = $filePath; // Simpan path file surat dalam database
-        $arsip->waktu_pengarsipan = now();
-        $arsip->save();
-
-        // Redirect dengan pesan sukses jika berhasil
-        return redirect()->route('arsip.index')->with('success', 'Surat berhasil diunggah dan diarsipkan.');
+    
+        // Process file upload
+        if ($request->hasFile('file_surat')) {
+            $file = $request->file('file_surat');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('arsip', $fileName, 'public');
+    
+            // Save data to the database
+            $arsip = new Arsip();
+            $arsip->nomor_surat = $request->nomor_surat;
+            $arsip->kategori = $request->kategori;
+            $arsip->judul = $request->judul;
+            $arsip->file_path = $filePath; // Store the file path
+            $arsip->waktu_pengarsipan = now();
+            $arsip->save();
+    
+            // Redirect to index page with success message
+            return redirect()->route('arsip.index')->with('success', 'Surat berhasil diunggah.');
+        }
+    
+        // Handle case where file was not uploaded
+        return back()->withErrors(['file_surat' => 'File surat tidak valid atau tidak diunggah.']);
     }
 
     /**
@@ -68,8 +75,9 @@ class ArsipController extends Controller
      * @param  \App\Models\Arsip  $arsip
      * @return \Illuminate\Http\Response
      */
-    public function show(Arsip $arsip)
+    public function show($id)
     {
+        $surat = Arsip::findOrFail($id);
         return view('arsip.show', compact('surat'));
     }
 
@@ -79,9 +87,10 @@ class ArsipController extends Controller
      * @param  \App\Models\Arsip  $arsip
      * @return \Illuminate\Http\Response
      */
-    public function edit(Arsip $arsip)
+    public function edit($id)
     {
-        //
+        $surat = Arsip::findOrFail($id);
+        return view('arsip.edit', compact('surat'));
     }
 
     /**
@@ -91,11 +100,10 @@ class ArsipController extends Controller
      * @param  \App\Models\Arsip  $arsip
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Arsip $arsip)
+    public function update(Request $request, $id)
     {
-        //
+        
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -109,4 +117,12 @@ class ArsipController extends Controller
         return redirect()->route('arsip.index')
             ->with('success', 'Arsip berhasil dihapus.');
     }
+
+    public function download($id)
+{
+    $surat = Arsip::findOrFail($id);
+    $filePath = storage_path('app/public/' . $surat->file_path);
+
+    return response()->download($filePath);
+}
 }

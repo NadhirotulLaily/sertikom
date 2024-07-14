@@ -41,7 +41,7 @@
                         </form>
                         <a href="{{ route('arsip.download', $arsip->id) }}" class="btn btn-primary btn-download">Unduh</a>
                         <a href="{{ route('arsip.show', $arsip->id) }}" class="btn btn-success btn-view">Lihat >></a>
-                    </td>
+                    </td>                    
                 </tr>
                 @endforeach
             </tbody>

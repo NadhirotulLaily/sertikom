@@ -14,8 +14,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategoriSurat = Kategori::all();
-        return view('kategori.index', compact('kategoriSurat'));
+        $kategori = Kategori::all();
+        return view('kategori.index', compact('kategori'));
     }
 
     /**
@@ -69,8 +69,9 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kategori $kategori)
+    public function edit($id_kategori)
     {
+        $kategori = Kategori::findOrFail($id_kategori);
         return view('kategori.edit', compact('kategori'));
     }
 
@@ -81,9 +82,19 @@ class KategoriController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, $id_kategori)
     {
-        //
+        $request->validate([
+            'nama_kategori' => 'required|string|max:255',
+            'keterangan' => 'required|string',
+        ]);
+
+        $kategori = Kategori::findOrFail($id_kategori);
+        $kategori->nama_kategori = $request->input('nama_kategori');
+        $kategori->keterangan = $request->input('keterangan');
+        $kategori->save();
+
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
@@ -95,8 +106,6 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori)
     {
         $kategori->delete();
-
-        return redirect()->route('kategori.index')
-            ->with('success', 'Kategori berhasil dihapus.');
+        return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }
 }
