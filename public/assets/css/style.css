@@ -174,3 +174,42 @@ body {
 .profile-card p {
     margin-bottom: 0.5rem;
 }
+
+.iframe-container {
+    position: relative;
+    width: 100%;
+    padding-top: 57.14%; /* Untuk rasio aspek 16:9 (ganti sesuai kebutuhan) */
+    overflow: hidden;
+    border-radius: 8px; /* Atur sesuai keinginan */
+    margin-bottom: 20px; /* Jarak bawah dari iframe */
+}
+
+.iframe-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none; /* Hapus border iframe jika tidak diperlukan */
+}
+
+.info-box {
+    background-color: #fff;
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.info-box h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: black;
+}
+
+.info-box p {
+    font-size: 0.875rem;
+    color: black;
+    margin-bottom: 0.5rem;
+}
