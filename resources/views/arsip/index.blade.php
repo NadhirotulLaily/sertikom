@@ -30,7 +30,7 @@
                 @foreach($arsips as $arsip)
                 <tr>
                     <td>{{ $arsip->nomor_surat }}</td>
-                    <td>{{ $arsip->kategori }}</td>
+                    <td>{{ $arsip->kategori}}</td>
                     <td>{{ $arsip->judul }}</td>
                     <td>{{ $arsip->waktu_pengarsipan }}</td>
                     <td>

@@ -225,3 +225,37 @@ h2.text-center {
     color: black;
     margin-bottom: 0.5rem;
 }
+
+.form-input {
+    width: 100%; /* Input field mengambil lebar penuh dari parent */
+    padding: 8px; /* Padding internal di dalam input field */
+    font-size: 14px; /* Ukuran teks */
+    border: 1px solid #ccc; /* Garis tepi input field */
+    border-radius: 4px; /* Sudut melengkung pada input field */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Shadow untuk efek mendalam */
+}
+
+/* Label styling */
+.label-text {
+    font-size: 16px; /* Ukuran teks label */
+    font-weight: 500; /* Ketebalan teks label */
+    color: #333; /* Warna teks label */
+    margin-bottom: 8px; /* Jarak antara label dan input field */
+}
+
+/* Button styling */
+.form-button {
+    background-color: #3490dc; /* Warna latar belakang tombol */
+    color: #fff; /* Warna teks tombol */
+    padding: 10px 20px; /* Padding dalam tombol */
+    border: none; /* Tanpa border di sekitar tombol */
+    border-radius: 4px; /* Sudut melengkung pada tombol */
+    cursor: pointer; /* Kursor berubah menjadi tangan saat di atas tombol */
+    font-size: 14px; /* Ukuran teks tombol */
+    font-weight: 600; /* Ketebalan teks tombol */
+    transition: background-color 0.3s ease; /* Animasi perubahan warna latar belakang */
+}
+
+.form-button:hover {
+    background-color: #2779bd; /* Warna latar belakang saat hover */
+}

@@ -21,6 +21,6 @@ class Arsip extends Model
 
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class, 'kategori_id'); // Sesuaikan dengan nama model Kategori Anda
+        return $this->belongsTo(Kategori::class, 'id_kategori', 'id_kategori');
     }
 }

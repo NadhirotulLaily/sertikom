@@ -16,14 +16,17 @@ class ArsipController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $search = $request->input('search');
-        $arsips = Arsip::when($search, function ($query, $search) {
-            return $query->where('judul', 'like', "%{$search}%");
-        })->get();
+{
+    $search = $request->get('search');
+    $arsips = Arsip::with('kategori')
+                    ->when($search, function($query, $search) {
+                        return $query->where('judul', 'like', "%{$search}%");
+                    })
+                    ->get();
 
-        return view('arsip.index', compact('arsips'));
-    }
+    return view('arsip.index', compact('arsips'));
+}
+
 
 
     /**
@@ -78,6 +81,7 @@ class ArsipController extends Controller
         return back()->withErrors(['file_surat' => 'File surat tidak valid atau tidak diunggah.']);
     }
 
+
     /**
      * Display the specified resource.
      *
@@ -111,7 +115,25 @@ class ArsipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        $surat = Arsip::findOrFail($id);
+
+        $surat->nomor_surat = $request->input('nomor_surat');
+        $surat->kategori = $request->input('kategori');
+        $surat->judul = $request->input('judul');
+
+        if ($request->hasFile('file_path')) {
+            // Proses upload file baru
+            $file = $request->file('file_path');
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public', $fileName);
+            $surat->file_path = $fileName;
+        }
+
+        $surat->save();
+
+        Alert::success('Berhasil', 'Surat berhasil diperbarui.');
+
+        return redirect()->route('arsip.show', $surat->id);
     }
     /**
      * Remove the specified resource from storage.

@@ -26,7 +26,8 @@ Route::get('/arsip/{id}/show', [ArsipController::class, 'show'])->name('arsip.sh
 Route::post('/arsip-surat', [ArsipController::class, 'store'])->name('arsip.store');
 Route::get('/arsip/{id}/download', [ArsipController::class, 'download'])->name('arsip.download');
 Route::delete('/arsip/{id}', [ArsipController::class, 'destroy'])->name('arsip.destroy');
-Route::get('/arsip/{id}/edit',[ArsipController::class, 'edit'])->name('arsip.edit');
+Route::get('/arsip/{id}/edit', [ArsipController::class, 'edit'])->name('arsip.edit');
+Route::put('/arsip/{id}', [ArsipController::class, 'update'])->name('arsip.update');
 
 
 
