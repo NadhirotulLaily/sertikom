@@ -34,7 +34,7 @@ Route::get('/kategori-surat', [KategoriController::class, 'index'])->name('kateg
 Route::get('/kategori-surat/create', [KategoriController::class, 'create'])->name('kategori.create');
 Route::get('/kategori-surat/{id_kategori}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
 Route::put('/kategori-surat/{id_kategori}', [KategoriController::class, 'update'])->name('kategori.update');
-Route::delete('/kategori-suart/delete/{id}}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+Route::delete('/kategori-surat/{id_kategori}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 Route::post('/kategori-surat/store', [KategoriController::class, 'store'])->name('kategori.store');
 
 

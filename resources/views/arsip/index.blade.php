@@ -34,11 +34,10 @@
                     <td>{{ $arsip->judul }}</td>
                     <td>{{ $arsip->waktu_pengarsipan }}</td>
                     <td>
-                        <form action="{{ route('arsip.destroy', $arsip->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-delete">Hapus</button>
-                        </form>
+                        <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#confirmDelete{{ $arsip->id }}">
+                            Hapus
+                        </button>
+
                         <a href="{{ route('arsip.download', $arsip->id) }}" class="btn btn-primary btn-download">Unduh</a>
                         <a href="{{ route('arsip.show', $arsip->id) }}" class="btn btn-success btn-view">Lihat >></a>
                     </td>
@@ -49,4 +48,32 @@
     </div>
     <a href="{{ route('arsip.create') }}" class="btn btn-secondary mt-3">Arsipkan Surat</a>
 </div>
+
+<!-- Modal -->
+@foreach($arsips as $arsip)
+<div class="modal fade" id="confirmDelete{{ $arsip->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin menghapus arsip ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <form action="{{ route('arsip.destroy', $arsip->id) }}" method="POST" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection

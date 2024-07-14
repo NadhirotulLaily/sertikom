@@ -6,6 +6,7 @@ use App\Models\Arsip;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ArsipController extends Controller
 {
@@ -46,17 +47,17 @@ class ArsipController extends Controller
     {
         $request->validate([
             'nomor_surat' => 'required|string|max:255',
-            'kategori' => 'required|integer', // Make sure there is a 'kategori' field in the form
+            'kategori' => 'required|integer',
             'judul' => 'required|string|max:255',
             'file_surat' => 'required|mimes:pdf|max:2048',
         ]);
-    
+
         // Process file upload
         if ($request->hasFile('file_surat')) {
             $file = $request->file('file_surat');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('arsip', $fileName, 'public');
-    
+
             // Save data to the database
             $arsip = new Arsip();
             $arsip->nomor_surat = $request->nomor_surat;
@@ -65,11 +66,14 @@ class ArsipController extends Controller
             $arsip->file_path = $filePath; // Store the file path
             $arsip->waktu_pengarsipan = now();
             $arsip->save();
-    
+
+            // Alert success menggunakan SweetAlert2
+            Alert::success('Berhasil', 'Surat berhasil diunggah.');
+
             // Redirect to index page with success message
-            return redirect()->route('arsip.index')->with('success', 'Surat berhasil diunggah.');
+            return redirect()->route('arsip.index');
         }
-    
+
         // Handle case where file was not uploaded
         return back()->withErrors(['file_surat' => 'File surat tidak valid atau tidak diunggah.']);
     }
@@ -115,19 +119,22 @@ class ArsipController extends Controller
      * @param  \App\Models\Arsip  $arsip
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Arsip $arsip)
+    public function destroy($id)
     {
+        $arsip = Arsip::findOrFail($id);
         $arsip->delete();
 
-        return redirect()->route('arsip.index')
-            ->with('success', 'Arsip berhasil dihapus.');
+        // Alert success menggunakan SweetAlert2
+        Alert::success('Berhasil', 'Arsip berhasil dihapus.');
+
+        return redirect()->route('arsip.index');
     }
 
     public function download($id)
-{
-    $surat = Arsip::findOrFail($id);
-    $filePath = storage_path('app/public/' . $surat->file_path);
+    {
+        $surat = Arsip::findOrFail($id);
+        $filePath = storage_path('app/public/' . $surat->file_path);
 
-    return response()->download($filePath);
-}
+        return response()->download($filePath);
+    }
 }
