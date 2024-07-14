@@ -9,11 +9,11 @@
     <p>Klik "Lihat" pada kolom aksi untuk menampilkan surat.</p>
 
     <div class="form-group mb-3">
-        <div class="form-group search-container">
-            <a>Cari surat :</a>
-            <input type="text" class="form-control search-input" placeholder="Cari surat...">
-            <button class="btn search-button">Cari!</button>
-        </div>
+        <form action="{{ route('arsip.index') }}" method="GET" class="form-group search-container">
+            <label for="search">Cari surat :</label>
+            <input type="text" name="search" id="search" class="form-control search-input" placeholder="Cari surat...">
+            <button type="submit" class="btn search-button">Cari!</button>
+        </form>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered">
@@ -41,7 +41,7 @@
                         </form>
                         <a href="{{ route('arsip.download', $arsip->id) }}" class="btn btn-primary btn-download">Unduh</a>
                         <a href="{{ route('arsip.show', $arsip->id) }}" class="btn btn-success btn-view">Lihat >></a>
-                    </td>                    
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

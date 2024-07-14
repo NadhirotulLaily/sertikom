@@ -14,11 +14,16 @@ class ArsipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $arsips = Arsip::all();
+        $search = $request->input('search');
+        $arsips = Arsip::when($search, function ($query, $search) {
+            return $query->where('judul', 'like', "%{$search}%");
+        })->get();
+
         return view('arsip.index', compact('arsips'));
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -9,11 +9,11 @@
     <p>Klik "Tambah" pada kolom aksi untuk menambahkan kategori baru.</p>
 
     <div class="form-group mb-3">
-        <div class="form-group search-container">
-            <a>Cari kategori :</a>
-            <input type="text" class="form-control search-input" placeholder="Cari kategori...">
-            <button class="btn search-button">Cari!</button>
-        </div>
+        <form action="{{ route('kategori.index') }}" method="GET" class="form-group search-container">
+            <label for="search">Cari kategori :</label>
+            <input type="text" name="search" id="search" class="form-control search-input" placeholder="Cari kategori...">
+            <button type="submit" class="btn search-button">Cari!</button>
+        </form>
     </div>
 
     <div class="table-responsive">

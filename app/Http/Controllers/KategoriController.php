@@ -12,11 +12,16 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kategori = Kategori::all();
+        $search = $request->input('search');
+        $kategori = Kategori::when($search, function ($query, $search) {
+            return $query->where('keterangan', 'like', "%{$search}%");
+        })->get();
+
         return view('kategori.index', compact('kategori'));
     }
+
 
     /**
      * Show the form for creating a new resource.
