@@ -47,39 +47,34 @@ class ArsipController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'nomor_surat' => 'required|string|max:255',
-            'kategori' => 'required|integer',
-            'judul' => 'required|string|max:255',
-            'file_surat' => 'required|mimes:pdf|max:2048',
-        ]);
+{
+    $request->validate([
+        'nomor_surat' => 'required|string|max:255',
+        'id_kategori' => 'required|exists:kategori,id_kategori',
+        'judul' => 'required|string|max:255',
+        'file_surat' => 'required|mimes:pdf|max:2048',
+    ]);
 
-        // Process file upload
-        if ($request->hasFile('file_surat')) {
-            $file = $request->file('file_surat');
-            $fileName = time() . '_' . $file->getClientOriginalName();
-            $filePath = $file->storeAs('arsip', $fileName, 'public');
+    if ($request->hasFile('file_surat')) {
+        $file = $request->file('file_surat');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->storeAs('arsip', $fileName, 'public');
 
-            // Save data to the database
-            $arsip = new Arsip();
-            $arsip->nomor_surat = $request->nomor_surat;
-            $arsip->kategori = $request->kategori;
-            $arsip->judul = $request->judul;
-            $arsip->file_path = $filePath; // Store the file path
-            $arsip->waktu_pengarsipan = now();
-            $arsip->save();
+        $arsip = new Arsip();
+        $arsip->nomor_surat = $request->nomor_surat;
+        $arsip->id_kategori = $request->id_kategori; // Ubah ini dari 'kategori' menjadi 'id_kategori'
+        $arsip->judul = $request->judul;
+        $arsip->file_path = $filePath;
+        $arsip->waktu_pengarsipan = now();
+        $arsip->save();
 
-            // Alert success menggunakan SweetAlert2
-            Alert::success('Berhasil', 'Surat berhasil diunggah.');
-
-            // Redirect to index page with success message
-            return redirect()->route('arsip.index');
-        }
-
-        // Handle case where file was not uploaded
-        return back()->withErrors(['file_surat' => 'File surat tidak valid atau tidak diunggah.']);
+        Alert::success('Berhasil', 'Surat berhasil diunggah.');
+        return redirect()->route('arsip.index');
     }
+
+    return back()->withErrors(['file_surat' => 'File surat tidak valid atau tidak diunggah.']);
+}
+
 
 
     /**
@@ -103,9 +98,9 @@ class ArsipController extends Controller
     public function edit($id)
     {
         $surat = Arsip::findOrFail($id);
-        return view('arsip.edit', compact('surat'));
+        $kategori = Kategori::all();
+        return view('arsip.edit', compact('surat', 'kategori'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -118,7 +113,7 @@ class ArsipController extends Controller
         $surat = Arsip::findOrFail($id);
 
         $surat->nomor_surat = $request->input('nomor_surat');
-        $surat->kategori = $request->input('kategori');
+        $surat->id_kategori = $request->input('id_kategori');
         $surat->judul = $request->input('judul');
 
         if ($request->hasFile('file_path')) {

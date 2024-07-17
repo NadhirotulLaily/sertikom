@@ -16,35 +16,18 @@ class ArsipSeeder extends Seeder
      */
     public function run()
     {
-        // $pengumuman = Kategori::where('nama_kategori', 'Pengumuman')->first();
-        // $undangan = Kategori::where('nama_kategori', 'Undangan')->first();
+        Arsip::create([
+            'nomor_surat' => '2022/PD3/TU/001',
+            'id_kategori' => 1, // Menggunakan id_kategori dari Pengumuman
+            'judul' => 'Nota Dinas WFH',
+            'waktu_pengarsipan' => now(),
+        ]);
 
-        // Arsip::create([
-        //     'nomor_surat' => '2022/PD3/TU/001',
-        //     'id_kategori' => $pengumuman->id,
-        //     'judul' => 'Nota Dinas WFH',
-        //     'waktu_pengarsipan' => now(),
-        // ]);
-
-        // Arsip::create([
-        //     'nomor_surat' => '2022/PD2/TU/022',
-        //     'id_kategori' => $undangan->id,
-        //     'judul' => 'Undangan Halal Bi Halal',
-        //     'waktu_pengarsipan' => now(),
-        // ]);
-
-                Arsip::create([
-                'nomor_surat' => '2022/PD3/TU/001',
-                'kategori' => 'pengumuman',
-                'judul' => 'Nota Dinas WFH',
-                'waktu_pengarsipan' => now(),
-            ]);
-    
-            Arsip::create([
-                'nomor_surat' => '2022/PD2/TU/022',
-                'kategori' => 'undangan',
-                'judul' => 'Undangan Halal Bi Halal',
-                'waktu_pengarsipan' => now(),
-            ]);
+        Arsip::create([
+            'nomor_surat' => '2022/PD2/TU/022',
+            'id_kategori' => 2, // Menggunakan id_kategori dari Undangan
+            'judul' => 'Undangan Halal Bi Halal',
+            'waktu_pengarsipan' => now(),
+        ]);
     }
 }

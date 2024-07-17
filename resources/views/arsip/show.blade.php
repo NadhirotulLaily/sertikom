@@ -6,7 +6,7 @@
         <div class="p-4">
             <div class="info-box">
                 <h2>Nomor: {{ $surat->nomor_surat }}</h2>
-                <p class="text-sm text-gray-600 mb-2">Kategori: {{ $surat->kategori }}</p>
+                <p class="text-sm text-gray-600 mb-2">Kategori: {{ $surat->kategori->nama_kategori }}</p>
                 <p class="text-sm text-gray-600 mb-2">Judul: {{ $surat->judul }}</p>
                 <p class="text-sm text-gray-600 mb-2">Waktu Unggah: {{ $surat->waktu_pengarsipan }}</p>
             </div>

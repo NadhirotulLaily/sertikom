@@ -10,11 +10,11 @@ body {
 /* Sidebar styling */
 #sidebar-wrapper {
     width: 250px;
-    background: rgb(196, 212, 255);
+    background: rgb(88, 97, 124);
     padding: 15px;
     height: 100vh;
     position: fixed;
-    color:  rgb(196, 212, 255);
+    color:  rgb(88, 97, 124);
 }
 
 #sidebar-wrapper h5 {
@@ -32,7 +32,7 @@ body {
 }
 
 .list-group-item.active {
-    background-color: #007bff;
+    background-color: rgb(137, 151, 192);
     color: white;
 }
 

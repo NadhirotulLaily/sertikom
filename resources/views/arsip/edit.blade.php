@@ -16,8 +16,14 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="kategori" class="label-text">Kategori</label>
-                        <input type="text" name="kategori" id="kategori" value="{{ $surat->kategori }}" class="form-input">
+                        <label for="id_kategori" class="label-text">Kategori</label>
+                        <select id="id_kategori" name="id_kategori" class="form-input" required>
+                            @foreach($kategori as $kat)
+                                <option value="{{ $kat->id_kategori }}" {{ $surat->id_kategori == $kat->id_kategori ? 'selected' : '' }}>
+                                    {{ $kat->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="mb-4">

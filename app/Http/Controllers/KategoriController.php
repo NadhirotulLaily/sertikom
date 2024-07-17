@@ -31,7 +31,8 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategori.create');
+        $nextId = Kategori::max('id_kategori') + 1;
+        return view('kategori.create', compact('nextId'));
     }
 
     /**

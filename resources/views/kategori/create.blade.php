@@ -7,8 +7,8 @@
     <form action="{{ route('kategori.store') }}" method="POST">
         @csrf
         <div class="form-group">
-            <label for="id">ID (Auto Increment)</label>
-            {{-- <input type="text" class="form-control" id="id" value="{{ $nextId }}" disabled> --}}
+            <label for="id_kategori">ID (Auto Increment)</label>
+            <input type="text" class="form-control" id="id_kategori" value="{{ $nextId }}" disabled>
         </div>
         <div class="form-group">
             <label for="nama_kategori">Nama Kategori</label>

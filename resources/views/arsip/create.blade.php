@@ -26,8 +26,8 @@
                     <input type="text" id="nomor_surat" name="nomor_surat" class="form-control" required>
                 </div>
                 <div class="form-group">
-                    <label for="kategori">Kategori</label>
-                    <select id="kategori" name="kategori" class="form-control" required>
+                    <label for="id_kategori">Kategori</label>
+                    <select id="id_kategori" name="id_kategori" class="form-control" required>
                         @foreach($kategori as $kat)
                             <option value="{{ $kat->id_kategori }}">{{ $kat->nama_kategori }}</option>
                         @endforeach

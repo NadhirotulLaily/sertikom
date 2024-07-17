@@ -30,14 +30,13 @@
                 @foreach($arsips as $arsip)
                 <tr>
                     <td>{{ $arsip->nomor_surat }}</td>
-                    <td>{{ $arsip->kategori}}</td>
+                    <td>{{ $arsip->kategori->nama_kategori }}</td>
                     <td>{{ $arsip->judul }}</td>
                     <td>{{ $arsip->waktu_pengarsipan }}</td>
                     <td>
                         <button type="button" class="btn btn-danger btn-delete" data-toggle="modal" data-target="#confirmDelete{{ $arsip->id }}">
                             Hapus
                         </button>
-
                         <a href="{{ route('arsip.download', $arsip->id) }}" class="btn btn-primary btn-download">Unduh</a>
                         <a href="{{ route('arsip.show', $arsip->id) }}" class="btn btn-success btn-view">Lihat >></a>
                     </td>

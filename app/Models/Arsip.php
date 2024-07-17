@@ -11,13 +11,7 @@ class Arsip extends Model
 
     protected $table = 'arsip';
 
-    protected $fillable = [
-        'nomor_surat',
-        'kategori', // sesuaikan dengan nama foreign key yang digunakan di migrasi
-        'judul',
-        'file_path',
-        'waktu_pengarsipan',
-    ];
+    protected $fillable = ['nomor_surat', 'id_kategori', 'judul', 'file_path', 'waktu_pengarsipan'];
 
     public function kategori()
     {
